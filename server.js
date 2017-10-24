@@ -20,7 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use((req, res) => res.setHeader('X-Total-Count', 50));
+app.use((req, res, next) => {
+    res.setHeader('X-Total-Count', 50);
+    next();
+});
 
 var port = process.env.PORT || 8080;
 
