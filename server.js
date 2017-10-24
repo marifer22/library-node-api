@@ -19,7 +19,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
-    allowedHeaders: ['X-Total-Count']
+    allowedHeaders: ['*']
 }));
 
 app.use((req, res, next) => {
