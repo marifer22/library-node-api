@@ -25,6 +25,14 @@ router.route('/')
                 res.set('X-Total-Count', 50);
                 res.json(authors);
             });
+        }else{
+            Author.find(function(err, authors){
+                if(err) {
+                    res.send(err);
+                }
+
+                res.json(authors);
+            });
         }
     });
 
