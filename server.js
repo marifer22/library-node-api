@@ -18,7 +18,9 @@ var categoriesRoutes = require('./app/controllers/categories');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  exposedHeaders: ['X-Total-Count']
+}));
 
 var port = process.env.PORT || 8080;
 
