@@ -20,11 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get((req, res, next) => {
-    res.setHeader('X-Total-Count', 50);
-    next();
-});
-
 var port = process.env.PORT || 8080;
 
 // REGISTER OUR ROUTES

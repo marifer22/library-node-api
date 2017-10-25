@@ -28,6 +28,7 @@ router.route('/')
     .get(function(req, res){
         Book.find(function (err, books) {
             if(err) {
+                res.setHeader('X-Total-Count', 50);
                 res.send(err);
             }
 
