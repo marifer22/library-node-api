@@ -34,6 +34,7 @@ router.route('/')
                     res.send(err);
                 }
 
+                res.set('X-Total-Count', publishers.length);
                 res.json(publishers);
             });
         }
