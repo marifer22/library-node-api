@@ -31,7 +31,7 @@ router.route('/')
                 res.send(err);
             }
             
-            res.set('X-Total-Count', 50);
+            res.set('X-Total-Count', books.length);
             res.json(books);
         });
     });
