@@ -32,7 +32,7 @@ function getList(req, res){
     const end = parseInt(req.query._end || 10, 10);
     const skip = parseInt(req.query._start || 0, 10);
     const limit = end - skip;
-    const sortValue = req.query._order || 'desc';
+    const sortValue =(req.query._order || 'desc').toLowerCase();
     let sortKey = req.query._sort || '_id';
     sortKey = sortKey === 'id' ? '_id' : sortKey;
     debugger;
