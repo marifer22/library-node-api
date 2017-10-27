@@ -35,7 +35,7 @@ function getList(req, res){
     const sortValue =(req.query._order || 'desc').toLowerCase();
     let sortKey = req.query._sort || '_id';
     sortKey = sortKey === 'id' ? '_id' : sortKey;
-    debugger;
+    
     Book.find()
         .limit(limit)
         .skip(skip)

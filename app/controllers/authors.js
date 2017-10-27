@@ -2,75 +2,82 @@ var express = require('express');
 var router = express.Router();
 var Author = require('../models/authors');
 
-router.route('/')
-    .post(function(req, res){
-        var author= new Author();
-        author.name = req.body.name;
+function createNew(req, res){
+    var author= new Author();
+    author.name = req.body.name;
 
-        author.save(function(err, author){
-            if(err) {
-                res.send(err);
-            }
-
-            res.json({message: 'Author created'});
-        });
-    })
-    .get(function(req, res) {
-        if(req.query.name) {
-            Author.find({name: req.query.name}, function(err, authors) {
-                if(err){
-                    res.send(err);
-                }
-
-                res.set('X-Total-Count', authors.length);
-                res.json(authors);
-            });
-        }else{
-            Author.find(function(err, authors){
-                if(err) {
-                    res.send(err);
-                }
-
-                res.set('X-Total-Count', authors.length);
-                res.json(authors);
-            });
+    author.save(function(err, author){
+        if(err) {
+            res.send(err);
         }
+
+        res.json({message: 'Author created'});
     });
+}
 
-router.route('/:author_id')
-    .get(function(req, res){
-        Author.findById(req.params.author_id, function(err, author) {
-            if(err) {
-                res.send(err);
-            }
+function getList(req, res) {
+    const end = parseInt(req.query._end || 10, 10);
+    const skip = parseInt(req.query._start || 0, 10);
+    const limit = end - skip;
+    const sortValue =(req.query._order || 'desc').toLowerCase();
+    let sortKey = req.query._sort || '_id';
+    sortKey = sortKey === 'id' ? '_id' : sortKey;
 
-            res.json(author);
-        });
-    })
-    .put(function(req, res) {
-        Author.findById(req.params.author_id, function(err, author) {
-            if(err) {
-                res.send(err);
-            }
+    Author.find()
+    .limit(limit)
+    .skip(skip)
+    .sort({ [sortKey]: sortValue })
+    .exec()
+    .then(authors => Author.count().exec()
+        .then(count => res.set('X-Total-Count', count))
+        .then(() => authors))
+    .then(authors => res.json(authors));
+}
 
-            author.name= req.body.name;
-            author.save(function(err){
-                if(err){
-                    res.send(err);
-                }
+function getAuthor(req, res){
+    Author.findById(req.params.author_id, function(err, author) {
+        if(err) {
+            res.send(err);
+        }
 
-                res.json({message: 'Author updated'});
-            });
-        });
-    })
-    .delete(function(req, res){
-        author.remove({_id: req.params.author_id}, function(err){
+        res.json(author);
+    });
+}
+
+function editAuthor(req, res) {
+    Author.findById(req.params.author_id, function(err, author) {
+        if(err) {
+            res.send(err);
+        }
+
+        author.name= req.body.name;
+        author.save(function(err){
             if(err){
                 res.send(err);
             }
 
-            res.json({message: 'Author deleted'});
+            res.json({message: 'Author updated'});
         });
     });
+}
+
+function removeAuthor(req, res){
+    author.remove({_id: req.params.author_id}, function(err){
+        if(err){
+            res.send(err);
+        }
+
+        res.json({message: 'Author deleted'});
+    });
+}
+
+router.route('/')
+    .post(createNew)
+    .get(getList);
+
+router.route('/:author_id')
+    .get(getAuthor)
+    .put(editAuthor)
+    .delete(removeAuthor);
 
 module.exports = router;
