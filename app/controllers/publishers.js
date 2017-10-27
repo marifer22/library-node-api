@@ -25,14 +25,15 @@ function getList(req, res) {
     let sortKey = req.query._sort || '_id';
     sortKey = sortKey === 'id' ? '_id' : sortKey;
     
-    Category.find()
+    Publisher.find()
         .limit(limit)
         .skip(skip)
         .sort({ [sortKey]: sortValue })
         .exec()
-        .then(categories => Category.count().exec()
+        .then(publisher => Publisher.count().exec()
             .then(count => res.set('X-Total-Count', count))
-            .then(() => categories))
+            .then(() => publisher))
+        .then(publisher => res.json(publisher));
 }
 
 function getPublisher(req, res){
