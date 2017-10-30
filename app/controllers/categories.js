@@ -31,7 +31,8 @@ function getList(req, res) {
         .then(categories => Category.count().exec()
             .then(count => res.set('X-Total-Count', count))
             .then(() => categories))
-        .then(categories => res.json(categories));
+        .then(categories => res.json(categories))
+        .catch(err => res.send(err));
 }
 
 function getCategory(req, res){

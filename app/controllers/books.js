@@ -32,19 +32,31 @@ function getList(req, res){
     const end = parseInt(req.query._end || 10, 10);
     const skip = parseInt(req.query._start || 0, 10);
     const limit = end - skip;
-    const sortValue =(req.query._order || 'desc').toLowerCase();
+    const sortValue = (req.query._order || 'desc').toLowerCase();
     let sortKey = req.query._sort || '_id';
     sortKey = sortKey === 'id' ? '_id' : sortKey;
-    
-    Book.find()
+
+    const filter = {};
+    if(req.query.author) {
+        filter.author = req.query.author;
+    }
+    if(req.query.category) {
+        filter.category = req.query.category;
+    }
+    if(req.query.publisher) {
+        filter.publisher = req.query.publisher;
+    }
+
+    Book.find(filter)
         .limit(limit)
         .skip(skip)
         .sort({ [sortKey]: sortValue })
         .exec()
-        .then(books => Book.count().exec()
+        .then(books => Book.count(filter).exec()
             .then(count => res.set('X-Total-Count', count))
             .then(() => books))
-        .then(books => res.json(books));
+        .then(books => res.json(books))
+        .catch(err => res.send(err));
 }
 
 function getBook(req, res){

@@ -31,7 +31,8 @@ function getList(req, res) {
     .then(authors => Author.count().exec()
         .then(count => res.set('X-Total-Count', count))
         .then(() => authors))
-    .then(authors => res.json(authors));
+    .then(authors => res.json(authors))
+    .catch(err => res.send(err));
 }
 
 function getAuthor(req, res){

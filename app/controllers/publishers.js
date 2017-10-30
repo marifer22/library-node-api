@@ -33,7 +33,8 @@ function getList(req, res) {
         .then(publisher => Publisher.count().exec()
             .then(count => res.set('X-Total-Count', count))
             .then(() => publisher))
-        .then(publisher => res.json(publisher));
+        .then(publisher => res.json(publisher))
+        .catch(err => res.send(err));
 }
 
 function getPublisher(req, res){

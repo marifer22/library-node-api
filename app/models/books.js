@@ -26,11 +26,11 @@ var BookSchema = new Schema({
                         required: true},
     descriptionContent: {type: String, 
                         required: true},
-    author: {type: Schema.Types.ObjectId, 
+    author: {type: String, 
                 ref: 'Author'},
-    publisher: {type: Schema.Types.ObjectId, 
+    publisher: {type: String, 
                 ref: 'Publisher'},
-    category: {type: Schema.Types.ObjectId, 
+    category: {type: String, 
                 ref: 'Category'}
 });
 
