@@ -31,7 +31,9 @@ app.use(expressSession({
   secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: false,
-  httpOnly: false
+  cookie: {
+    httpOnly: false
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
