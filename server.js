@@ -34,7 +34,8 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: false
+    httpOnly: false,
+    domain: '.marifermunoz.com'
   }
 }));
 app.use(passport.initialize());
