@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+
+var isLoggedIn = require('../utils/is-logged-in');
 var Book = require('../models/books');
 
 function createNew(req, res) {
@@ -115,12 +117,12 @@ function removeBook(req, res){
 }
 
 router.route('/')
-    .post(createNew)
+    .post(isLoggedIn, createNew)
     .get(getList);
 
 router.route('/:book_id')
     .get(getBook)
-    .put(editBook)
-    .delete(removeBook);
+    .put(isLoggedIn, editBook)
+    .delete(isLoggedIn, removeBook);
 
 module.exports = router;

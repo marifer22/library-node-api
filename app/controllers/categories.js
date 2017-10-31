@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+
+var isLoggedIn = require('../utils/is-logged-in');
 var Category = require('../models/categories');
 
 function createNew(req, res){
@@ -73,12 +75,12 @@ function removeCategory(req, res){
 }
 
 router.route('/')
-    .post(createNew)
+    .post(isLoggedIn, createNew)
     .get(getList);
 
 router.route('/:category_id')
     .get(getCategory)
-    .put(editCategory)
-    .delete(removeCategory);
+    .put(isLoggedIn, editCategory)
+    .delete(isLoggedIn, removeCategory);
 
 module.exports = router;
