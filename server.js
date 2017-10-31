@@ -24,6 +24,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
+  origin: true,
   exposedHeaders: ['X-Total-Count']
 }));
 app.use(cookieParser());
