@@ -3,7 +3,7 @@ Library API
 
 Live demo
 ---------
-https://stormy-plains-25521.herokuapp.com/books
+http://library-api.marifermunoz.com/books
 
 Routes
 ------
